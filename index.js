@@ -1,30 +1,3 @@
-// console.log("wialohdoiahd");
-
-// async function getSomething() {
-//     const response = await fetch("https://api.openweathermap.org/data/2.5/weather?lat=" + 37.2 + "&lon=" + 175.11 + "&appid=" + "-")
-//         .then((data) => data.json())
-//     // console.log(await response.json())
-//     return response
-// }
-
-// getSomething().then((data) => {
-//     console.log(data)
-//     let lol = ""
-//     console.log("Temp: ", data["main"]["temp"])
-//     let something = document.getElementById("test")
-//     something.addEventListener("click", () => {
-//         console.log(lol)
-//     })
-// })
-
-// console.log("this is after function call")
-
-// // async
-// // fetch
-// // promise
-
-// // element
-
 fetch("getEvent.php")
   .then((data) => data.json())
   .then((data) => {
@@ -38,18 +11,46 @@ fetch("getEvent.php")
       let nameLink = document.createElement("span");
       nameLink.addEventListener("click", () => {
         const infoBox = document.getElementById("info");
+        const weatherBox = document.getElementById("weather");
+
         fetch("getDetails.php?id=" + event.id)
           .then((info) => info.json())
           .then((info) => info[0])
           .then((info) => {
             console.log(info);
             infoBox.innerHTML = "";
+            weatherBox.innerHTML = "";
             //
             Object.keys(info).forEach((key) => {
               const detail = document.createElement("p");
               detail.textContent = `${key}: ${info[key]}`;
               infoBox.appendChild(detail);
             });
+            let button = document.createElement("button");
+            button.addEventListener("click", () => {
+              weatherBox.innerHTML = "";
+              let [lat, lon] = info["lon_lat"].split(",");
+              lat = lat.trim();
+              lon = lon.trim();
+
+              fetch("getWeather.php?lat=" + lat + "&lon=" + lon)
+                .then((weather) => weather.json())
+                .then((weather) => {
+                  console.log(weather);
+                  let temp = document.createElement("p");
+                  let humidity = document.createElement("p");
+                  let description = document.createElement("p");
+
+                  temp.innerHTML = "Temp: " + weather.main.temp;
+                  humidity.innerHTML = "Humidity: " + weather.main.humidity;
+                  description.innerHTML =
+                    "Description: " + weather.weather[0].description;
+                  weatherBox.appendChild(temp);
+                  weatherBox.appendChild(humidity);
+                  weatherBox.appendChild(description);
+                });
+            });
+            infoBox.appendChild(button);
           });
       });
 
