@@ -22,12 +22,43 @@ fetch("getEvent.php")
             weatherBox.innerHTML = "";
             //
             Object.keys(info).forEach((key) => {
-              const detail = document.createElement("p");
-              detail.textContent = `${key}: ${info[key]}`;
-              infoBox.appendChild(detail);
+              const row = document.createElement("tr");
+              const dkey = document.createElement("td");
+              const value = document.createElement("td");
+              value.classList.add("value");
+              dkey.innerHTML = key + ": ";
+              value.innerHTML = info[key];
+              row.appendChild(dkey);
+              row.appendChild(value);
+              infoBox.appendChild(row);
             });
-            let button = document.createElement("button");
-            button.addEventListener("click", () => {
+            let editButton = document.createElement("button");
+            editButton.textContent = "Edit";
+            editButton.addEventListener("click", () => {
+              let toEdit = document.getElementsByClassName("value");
+              toEdit = Array.from(toEdit);
+              toEdit.forEach((p) => {
+                p.setAttribute("contenteditable", "true");
+                p.style.border = "solid thin black";
+              });
+            });
+
+            let saveButton = document.createElement("button");
+            saveButton.textContent = "Save";
+            saveButton.addEventListener("click", () => {
+              let updatedData = {};
+              let toEdit = document.getElementsByClassName("value");
+
+              Array.from(toEdit).forEach((p) => {
+                let key = p.previousSibling.textContent.replace(": ", "");
+                let value = p.textContent;
+                updatedData[key] = value;
+              });
+            });
+
+            let weatherButton = document.createElement("button");
+            weatherButton.textContent = "Weather";
+            weatherButton.addEventListener("click", () => {
               weatherBox.innerHTML = "";
               let [lat, lon] = info["lon_lat"].split(",");
               lat = lat.trim();
@@ -50,7 +81,9 @@ fetch("getEvent.php")
                   weatherBox.appendChild(description);
                 });
             });
-            infoBox.appendChild(button);
+            infoBox.appendChild(weatherButton);
+            infoBox.appendChild(editButton);
+            infoBox.appendChild(saveButton);
           });
       });
 
