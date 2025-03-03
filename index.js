@@ -1,3 +1,17 @@
+
+function formatSet(obj) {
+  console.log(Object.keys(obj));
+
+  return Object.keys(obj)
+    .map((key) => key + " = \"" + obj[key] + "\"")
+
+    .join(",");
+}
+
+
+
+
+
 fetch("getEvent.php")
   .then((data) => data.json())
   .then((data) => {
@@ -9,7 +23,7 @@ fetch("getEvent.php")
       let location = document.createElement("td");
 
       let nameLink = document.createElement("span");
-      nameLink.addEventListener("click", () => {
+      row.addEventListener("click", () => {
         const infoBox = document.getElementById("info");
         const weatherBox = document.getElementById("weather");
 
@@ -26,7 +40,8 @@ fetch("getEvent.php")
               const dkey = document.createElement("td");
               const value = document.createElement("td");
               value.classList.add("value");
-              dkey.innerHTML = key + ": ";
+              dkey.classList.add("key")
+              dkey.innerHTML = key;
               value.innerHTML = info[key];
               row.appendChild(dkey);
               row.appendChild(value);
@@ -48,12 +63,37 @@ fetch("getEvent.php")
             saveButton.addEventListener("click", () => {
               let updatedData = {};
               let toEdit = document.getElementsByClassName("value");
+              let keys = document.getElementsByClassName("key");
 
-              Array.from(toEdit).forEach((p) => {
-                let key = p.previousSibling.textContent.replace(": ", "");
-                let value = p.textContent;
-                updatedData[key] = value;
-              });
+              console.log(keys);
+              console.log(info)
+              
+              for (let i = 0; i < keys.length; i++) {
+                console.log(info[keys[i].innerHTML], toEdit[i].innerHTML)
+                if (info[keys[i].innerHTML].trim() !== toEdit[i].innerHTML.trim()) {
+                  if (toEdit[i].innerHTML.includes("<br>")) {
+                    toEdit[i].innerHTML = toEdit[i].innerHTML.replace(
+                      "<br>",
+                      ""
+                    );
+                  }
+                  console.log("difernt")
+                  updatedData[keys[i].innerHTML.trim()] = toEdit[i].innerHTML.trim()
+                }
+
+              }
+
+              console.log(updatedData);
+              fetch("updateEvent.php", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/x-www-form-urlencoded",
+                },
+                body: new URLSearchParams({
+                  set: formatSet(updatedData),
+                  id: info.id,
+                }),
+              }).then(response => response.text()).then(response => console.log(response))
             });
 
             let weatherButton = document.createElement("button");

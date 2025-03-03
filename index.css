@@ -1,8 +1,123 @@
+/* General Page Styling */
 body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 20px;
+  background-color: #f4f4f4;
+  color: #333;
   display: flex;
-  flex-direction: row;
-  align-items: center;
   justify-content: center;
 }
 
+/* Split Screen Layout */
+.container {
+  display: flex;
+  width: 90%;
+  max-width: 1200px;
+  gap: 20px;
+}
 
+/* Left Side - Events Table */
+.left-panel {
+  flex: 1;
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  max-height: 80vh;
+}
+
+#eventTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#eventTable th,
+#eventTable td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+#eventTable th {
+  background-color: #007bff;
+  color: white;
+}
+
+#eventTable tr:hover {
+  background-color: #f1f1f1;
+  cursor: pointer;
+}
+
+/* Right Side - Event Details & Weather */
+.right-panel {
+  flex: 1;
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  max-height: 80vh;
+}
+
+/* Info Box */
+#info {
+  margin-bottom: 20px;
+}
+
+#info tr td {
+  padding: 8px;
+  border-bottom: 1px solid #eee;
+}
+
+#info tr:last-child td {
+  border-bottom: none;
+}
+
+/* Editable Fields */
+.value[contenteditable="true"] {
+  background-color: #ffffcc;
+  border: 1px solid #ccc;
+  padding: 5px;
+  border-radius: 4px;
+}
+
+/* Buttons */
+button {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+button:hover {
+  background: #0056b3;
+}
+
+button:active {
+  background: #004080;
+}
+
+/* Weather Box */
+#weather {
+  padding: 10px;
+  background: #eef9ff;
+  border-left: 4px solid #007bff;
+  border-radius: 5px;
+}
+
+#weather p {
+  margin: 5px 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+}
