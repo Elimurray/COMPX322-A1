@@ -6,28 +6,31 @@ body {
   background-color: #f4f4f4;
   color: #333;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;  /* Aligns content to the left */
+  align-items: flex-start;     /* Ensures the content aligns to the top of the page */
 }
 
 /* Split Screen Layout */
 .container {
   display: flex;
-  width: 90%;
+  flex-direction: row;
+  width: 100%;   /* Adjust the width to fit within the screen */
   max-width: 1200px;
   gap: 20px;
 }
 
-/* Left Side - Events Table */
+/* Left Side - Events Table (Fixed Width) */
 .left-panel {
-  flex: 1;
+  flex: 0 0 500px;  /* Fixed width of 300px for the left panel */
   background: white;
   padding: 15px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   overflow-y: auto;
-  max-height: 80vh;
+  max-height: 90vh;
 }
 
+/* Event Table */
 #eventTable {
   width: 100%;
   border-collapse: collapse;
@@ -45,20 +48,27 @@ body {
   color: white;
 }
 
+/* Hover Effect for Table Row */
+#eventTable tr {
+  transition: all 0.3s ease;
+}
+
 #eventTable tr:hover {
   background-color: #f1f1f1;
   cursor: pointer;
+  transform: scale(1.02);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 /* Right Side - Event Details & Weather */
 .right-panel {
-  flex: 1;
+  flex: 1;  /* This makes the right panel take up the remaining space */
   background: white;
   padding: 15px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   overflow-y: auto;
-  max-height: 80vh;
+  max-height: 90vh;
 }
 
 /* Info Box */
@@ -77,7 +87,7 @@ body {
 
 /* Editable Fields */
 .value[contenteditable="true"] {
-  background-color: #ffffcc;
+  background-color: #ffffff;
   border: 1px solid #ccc;
   padding: 5px;
   border-radius: 4px;
@@ -115,9 +125,4 @@ button:active {
   margin: 5px 0;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  .container {
-    flex-direction: column;
-  }
-}
+
