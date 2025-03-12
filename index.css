@@ -1,33 +1,42 @@
-/* General Page Styling */
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 20px;
-  background-color: #f4f4f4;
-  color: #333;
-  display: flex;
-  justify-content: flex-start;  /* Aligns content to the left */
-  align-items: flex-start;     /* Ensures the content aligns to the top of the page */
+header {
+  text-align: center; 
+  width: 100%;
+  margin: 20px 0; 
+  top:0;
 }
 
+header h1 {
+  display: inline;
+}        
+
+
+
+
 /* Split Screen Layout */
-.container {
+#container {
   display: flex;
   flex-direction: row;
-  width: 100%;   /* Adjust the width to fit within the screen */
-  max-width: 1200px;
+  width: 100%;   
   gap: 20px;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 5px;
+  color: #333;
+  display: flex;
+  justify-content: center;  
+  align-items: center;      
+  height: 80vh;  
 }
 
 /* Left Side - Events Table (Fixed Width) */
 .left-panel {
-  flex: 0 0 500px;  /* Fixed width of 300px for the left panel */
+  flex: 0 0 500px;  
   background: white;
   padding: 15px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   overflow-y: auto;
-  max-height: 90vh;
+  max-height: 80vh;
 }
 
 /* Event Table */
@@ -56,19 +65,19 @@ body {
 #eventTable tr:hover {
   background-color: #f1f1f1;
   cursor: pointer;
-  transform: scale(1.02);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  
 }
 
 /* Right Side - Event Details & Weather */
 .right-panel {
-  flex: 1;  /* This makes the right panel take up the remaining space */
+  flex: 0 0 500px;
   background: white;
   padding: 15px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   overflow-y: auto;
   max-height: 90vh;
+  height: 100%;
 }
 
 /* Info Box */
@@ -103,6 +112,7 @@ button {
   cursor: pointer;
   font-size: 14px;
   margin-top: 10px;
+  
 }
 
 button:hover {
@@ -113,16 +123,25 @@ button:active {
   background: #004080;
 }
 
+#save-buttons button {
+  margin-right: 10px; 
+}
+
+#save-buttons button:last-child {
+  margin-right: 0; 
+}
+
+
+
 /* Weather Box */
 #weather {
   padding: 10px;
   background: #eef9ff;
   border-left: 4px solid #007bff;
   border-radius: 5px;
+  display: none;
 }
 
 #weather p {
   margin: 5px 0;
 }
-
-

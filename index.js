@@ -1,22 +1,20 @@
-
+// Function to format the object into a string for updating
 function formatSet(obj) {
   console.log(Object.keys(obj));
 
   return Object.keys(obj)
     .map((key) => key + " = \"" + obj[key] + "\"")
-
     .join(",");
 }
 
-
-
-
-
+// Fetch data from the "getEvent.php" to load the event list
 fetch("getEvent.php")
   .then((data) => data.json())
   .then((data) => {
     console.log(data);
     const table = document.getElementById("eventTable");
+
+    // Create table rows for each event
     data.forEach((event) => {
       const row = document.createElement("tr");
       let name = document.createElement("td");
@@ -26,7 +24,10 @@ fetch("getEvent.php")
       row.addEventListener("click", () => {
         const infoBox = document.getElementById("info");
         const weatherBox = document.getElementById("weather");
+        const infoButtons = document.getElementById("save-buttons");
+        weatherBox.style.display = "none";
 
+        // Fetch event details when an event row is clicked
         fetch("getDetails.php?id=" + event.id)
           .then((info) => info.json())
           .then((info) => info[0])
@@ -34,19 +35,22 @@ fetch("getEvent.php")
             console.log(info);
             infoBox.innerHTML = "";
             weatherBox.innerHTML = "";
-            //
+
+            // Create and append rows for each event detail
             Object.keys(info).forEach((key) => {
               const row = document.createElement("tr");
               const dkey = document.createElement("td");
               const value = document.createElement("td");
               value.classList.add("value");
-              dkey.classList.add("key")
+              dkey.classList.add("key");
               dkey.innerHTML = key;
               value.innerHTML = info[key];
               row.appendChild(dkey);
               row.appendChild(value);
               infoBox.appendChild(row);
             });
+
+            // Create the "Edit" button
             let editButton = document.createElement("button");
             editButton.textContent = "Edit";
             editButton.addEventListener("click", () => {
@@ -58,6 +62,7 @@ fetch("getEvent.php")
               });
             });
 
+            // Create the "Save" button
             let saveButton = document.createElement("button");
             saveButton.textContent = "Save";
             saveButton.addEventListener("click", () => {
@@ -65,25 +70,17 @@ fetch("getEvent.php")
               let toEdit = document.getElementsByClassName("value");
               let keys = document.getElementsByClassName("key");
 
-              console.log(keys);
-              console.log(info)
-              
+              // Loop through edited fields and prepare the data to be saved
               for (let i = 0; i < keys.length; i++) {
-                console.log(info[keys[i].innerHTML], toEdit[i].innerHTML)
                 if (info[keys[i].innerHTML].trim() !== toEdit[i].innerHTML.trim()) {
                   if (toEdit[i].innerHTML.includes("<br>")) {
-                    toEdit[i].innerHTML = toEdit[i].innerHTML.replace(
-                      "<br>",
-                      ""
-                    );
+                    toEdit[i].innerHTML = toEdit[i].innerHTML.replace("<br>", "");
                   }
-                  console.log("difernt")
-                  updatedData[keys[i].innerHTML.trim()] = toEdit[i].innerHTML.trim()
+                  updatedData[keys[i].innerHTML.trim()] = toEdit[i].innerHTML.trim();
                 }
-
               }
 
-              console.log(updatedData);
+              // Send updated data to the server
               fetch("updateEvent.php", {
                 method: "POST",
                 headers: {
@@ -93,9 +90,10 @@ fetch("getEvent.php")
                   set: formatSet(updatedData),
                   id: info.id,
                 }),
-              }).then(response => response.text()).then(response => console.log(response))
+              }).then(response => response.text()).then(response => console.log(response));
             });
 
+            // Create the "Weather" button
             let weatherButton = document.createElement("button");
             weatherButton.textContent = "Weather";
             weatherButton.addEventListener("click", () => {
@@ -104,6 +102,7 @@ fetch("getEvent.php")
               lat = lat.trim();
               lon = lon.trim();
 
+              // Fetch weather information based on event location
               fetch("getWeather.php?lat=" + lat + "&lon=" + lon)
                 .then((weather) => weather.json())
                 .then((weather) => {
@@ -114,22 +113,25 @@ fetch("getEvent.php")
 
                   temp.innerHTML = "Temp: " + weather.main.temp;
                   humidity.innerHTML = "Humidity: " + weather.main.humidity;
-                  description.innerHTML =
-                    "Description: " + weather.weather[0].description;
+                  description.innerHTML = "Description: " + weather.weather[0].description;
                   weatherBox.appendChild(temp);
                   weatherBox.appendChild(humidity);
                   weatherBox.appendChild(description);
+                  weatherBox.style.display = "block";
                 });
             });
-            infoBox.appendChild(weatherButton);
-            infoBox.appendChild(editButton);
-            infoBox.appendChild(saveButton);
+
+            // Append buttons to the infoButtons container
+            infoButtons.innerHTML = "";
+            infoButtons.appendChild(weatherButton);
+            infoButtons.appendChild(editButton);
+            infoButtons.appendChild(saveButton);
           });
       });
 
+      // Append event name and location to the row
       nameLink.innerHTML = event.name;
       name.appendChild(nameLink);
-
       location.innerHTML = event.location;
 
       row.appendChild(name);
