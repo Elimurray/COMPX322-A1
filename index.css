@@ -1,36 +1,34 @@
 header {
-  text-align: center; 
+  text-align: center;
   width: 100%;
-  margin: 20px 0; 
-  top:0;
+  margin: 20px 0;
+  top: 0;
 }
 
 header h1 {
   display: inline;
-}        
-
-
-
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
 
 /* Split Screen Layout */
 #container {
   display: flex;
   flex-direction: row;
-  width: 100%;   
+  width: 100%;
   gap: 20px;
-  font-family: Arial, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
   padding: 5px;
   color: #333;
   display: flex;
-  justify-content: center;  
-  align-items: center;      
-  height: 80vh;  
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
 }
 
 /* Left Side - Events Table (Fixed Width) */
 .left-panel {
-  flex: 0 0 500px;  
+  flex: 0 0 500px;
   background: white;
   padding: 15px;
   border-radius: 8px;
@@ -65,7 +63,6 @@ header h1 {
 #eventTable tr:hover {
   background-color: #f1f1f1;
   cursor: pointer;
-  
 }
 
 /* Right Side - Event Details & Weather */
@@ -112,7 +109,6 @@ button {
   cursor: pointer;
   font-size: 14px;
   margin-top: 10px;
-  
 }
 
 button:hover {
@@ -124,14 +120,12 @@ button:active {
 }
 
 #save-buttons button {
-  margin-right: 10px; 
+  margin-right: 10px;
 }
 
 #save-buttons button:last-child {
-  margin-right: 0; 
+  margin-right: 0;
 }
-
-
 
 /* Weather Box */
 #weather {
